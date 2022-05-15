@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Space+Mono&family=Ubuntu:wght@300&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Mono', monospace;
+}
+
+body {
+    background-color: hsl(185, 41%, 84%);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#first, #second {
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 8px;
+    font-size: 25px;
+    color: hsl(183, 100%, 15%);
+}
+
+#first {
+    margin-top: 200px;
+}
+
+#second {
+    margin-bottom: 100px;
+}
+
+.bill {
+    background-color: white;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 30px;
+    padding: 30px;
+    display: flex;
+    gap: 40px;
+}
+
+.inputDetails, .outputDetails {
+    width: 50%;
+    height: 376px;
+}
+
+.inputDetails {
+    padding: 10px 0px 10px 0px;
+}
+
+.inputDetails p {
+    color: hsl(186, 14%, 43%);
+}
+
+.outputDetails {
+    background-color: hsl(183, 100%, 15%);
+    border-radius: 15px;
+}
+
+.billInput, .peopleInput {
+    background-color: hsl(180, 18%, 93%);
+    height: 40px;
+    margin-top: 7px;
+    outline: hsl(180, 18%, 93%);
+    border-radius: 5px;
+}
+
+.billInput:hover, #customTip:hover,.peopleInput:hover {
+    outline: 2px solid hsl(172, 67%, 45%);
+}
+
+.billInput * {
+    display: inline-block;
+}
+
+.billInput p, .peopleInput p {
+    padding-left: 10px;
+    font-size: 23px;
+    font-weight: lighter;
+    line-height: 40px;
+    color: rgb(154, 180, 187);
+}
+
+#totalBill, #people {
+    height: 40px;
+    float: right;
+    width: 85%;
+    font-size: 25px;
+    text-align: right;
+    padding-right: 12px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color:hsl(183, 100%, 15%);
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+::placeholder {
+    color: hsl(183, 11%, 69%);
+}
+
+.selectTip p {
+    margin-top: 38px;
+    margin-bottom: 14px;
+}
+
+.tipAmount {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tipAmount * {
+    width: 100px;
+    height: 40px;
+    background-color: hsl(183, 100%, 15%);
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+#customTip {
+    background-color: hsl(180, 18%, 93%);
+    text-align: center;
+    color: hsl(183, 100%, 15%);
+    outline: none;
+}
+
+.tipAmount button:hover {
+    color: hsl(183, 100%, 15%);
+    background-color: hsl(172, 67%, 45%);
+    cursor: pointer;
+}
+
+.tipAmount button {
+    transition: 0.1s ease-in-out all;
+}
+
+.numPeople {
+    margin-top: 38px;
+    padding-bottom: 38px;
+}
+
+#personIcon {
+    display: inline-block;
+    padding-top: 12px;
+    padding-left: 10px;
+}
+
+.outputDetails {
+    padding: 50px 30px 30px 30px;
+}
+
+.tipOutput, .totalOutput {
+    display: flex;
+    align-items: center;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.amount {
+    color: white;
+    letter-spacing: 1px;
+}
+
+.perPerson {
+    color: hsl(185, 12%, 63%);
+    font-size: 14px;
+}
+
+.total {
+    margin-left: auto;
+}
+
+.total span {
+    font-size: 38px;
+    color:hsl(172, 67%, 45%);
+}
+
+#reset {
+    width: 100%;
+    margin-top: 70px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    color: hsl(183, 100%, 15%);
+    font-size: 17px;
+    font-weight: 700;
+    background-color: hsl(172, 67%, 45%);
+    cursor: pointer;
+    transition: 0.1s ease-in-out all;
+}
+
+#reset:hover {
+    background-color: hsl(185, 40%, 78%);
+}
+
+@media screen and (max-width: 780px) {
+    .bill {
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        gap: 0px;
+    }
+    .inputDetails, .outputDetails {
+        width: 80%;
+        height: 50%;
+    }
+    .tipAmount {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .bill {
+        width: 90%;
+    }
+    .inputDetails, .outputDetails {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .total {
+        margin: auto;
+    }
+    .tipOutput, .totalOutput {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
