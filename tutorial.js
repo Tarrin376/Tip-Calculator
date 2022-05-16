@@ -1,79 +1,123 @@
 const [totalBill, people] = [document.getElementById('totalBill'), document.getElementById('people')];
+const [billInput, peopleInput] = [document.querySelector('.billInput'), document.querySelector('.peopleInput')];
+const tipButtons = [...document.querySelector('.tipAmount').getElementsByTagName('button')];
 const totalText = document.getElementById('totalAmount').children[1];
 const tipText = document.getElementById('tipTotal').children[1];
-const tipButtons = [...document.querySelector('.tipAmount').getElementsByTagName('button')];
-let prevButton = null;
+const customTip = document.getElementById('customTip');
+const resetBtn = document.getElementById('reset');
+let prevBtn = null;
 
 totalBill.addEventListener('keyup', updateTotal);
 people.addEventListener('keyup', updateTotal);
 
-const roundNumber = (number) => {
-    let round = (Math.floor((number + Number.EPSILON) * 100) / 100).toString();
-    let index = round.indexOf('.');
-    if (index !== -1) round += '0'.repeat(2 - (round.length - index) + 1);
-    else round += `.00`;
-    return round;
+customTip.addEventListener('keyup', () => {
+    resetTip();
+    prevBtn = null;
+    
+    if (isNaN(customTip.value)) {
+        changeOutline(customTip, null, false);
+        return;
+    }
+
+    changeOutline(customTip, null);
+    updateTotal();
+});
+
+resetBtn.addEventListener('click', () => {
+    if (resetBtn.className !== 'disabled') {
+        customTip.style.outline = '';
+        billInput.style.outline = '';
+        peopleInput.style.outline = '';
+        totalText.textContent = '0';
+        tipText.textContent = '0';
+        customTip.value = '';
+        totalBill.value = '';
+        people.value = '';
+        resetTip();
+    }
+});
+
+const modifyResetButton = (isDisabled) => {
+    if (isDisabled) resetBtn.className = 'disabled';
+    else resetBtn.className = 'enabled';
 };
 
+modifyResetButton(true);
 tipButtons.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const btnTarget = e.currentTarget;
         btnTarget.style.background = 'hsl(172, 67%, 45%)';
         btnTarget.style.color = 'hsl(183, 100%, 15%)';
+        customTip.value = '';
+        customTip.style.outline = '';
+        resetTip();
 
-        if (prevButton !== null) {
-            prevButton.style.background = '';
-            prevButton.style.color = '';
-        }
-        
-        if (btnTarget === prevButton) {
-            prevButton = null;
-            totalText.textContent = roundNumber(totalText.textContent - tipText.textContent);
-            tipText.textContent = '0.00';
+        if (btnTarget === prevBtn) {
+            totalText.textContent = totalText.textContent - tipText.textContent;
+            tipText.textContent = '0';
+            prevBtn = null;
         }
         else {
-            prevButton = btnTarget;
+            prevBtn = btnTarget;
         }
 
         updateTotal();
     });
 });
 
+const changeOutline = (e, text, valid = true) => {
+    if (valid === false) {
+        e.style.outline = '2px solid orange';
+        if (text != null) text.style.visibility = 'visible';
+    }
+    else {
+        e.style.outline = '2px solid hsl(172, 67%, 45%)';
+        if (text != null) text.style.visibility = 'hidden';
+    }
+
+    return valid;
+};
+
+function resetTip() {
+    if (prevBtn !== null) {
+        prevBtn.style.background = '';
+        prevBtn.style.color = '';
+    }
+}
+
 function updateTotal() {
     const numPeople = parseInt(people.value);
     const billSum = parseFloat(totalBill.value);
+    const val = totalBill.value;
+    const last = val.length - 1;
 
-    if (checkInputs(numPeople, billSum) === true) {
+    if (checkInputs(numPeople, billSum)) {
         let sum = billSum / numPeople;
-        let tip = (prevButton !== null) ? sum * prevButton.value : 0;
-        totalText.textContent = roundNumber(sum + tip);
-        tipText.textContent = roundNumber(tip);
+        let custom = customTip.value;
+        let tip = (prevBtn !== null) ? sum * prevBtn.value : custom === '' ? 0 : custom / numPeople;
+        totalText.textContent = sum + tip;
+        tipText.textContent = tip;
+        modifyResetButton(false);
     }
     else {
-        totalText.textContent = '0.00';
+        totalText.textContent = '0';
+        tipText.textContent = '0';
+        modifyResetButton(true);
     }
     
-    const val = totalBill.value;
-    let last = val.length - 1;
     totalBill.value = isNaN(billSum) ? '' : (val[last] == '.' && val[last - 1] != '.') ? val : billSum;
     people.value = isNaN(numPeople) ? '' : numPeople;
 }
 
 function checkInputs(numPeople, billSum) {
-    const billInput = document.querySelector('.billInput');
-    const peopleInput = document.querySelector('.peopleInput');
+    const billError = document.getElementById('billError');
+    const pplError = document.getElementById('pplError');
     let valid = true;
 
-    const changeOutline = (e, valid = true) => {
-        if (valid === false) e.style.outline = '2px solid orange';
-        else e.style.outline = '2px solid hsl(172, 67%, 45%)';
-        return valid;
-    };
-
-    if (isNaN(billSum) || billSum === 0) valid = changeOutline(billInput, false);
-    else changeOutline(billInput);
-
-    if (isNaN(numPeople) || numPeople === 0) valid = changeOutline(peopleInput, false);
-    else changeOutline(peopleInput);
+    if (!isNaN(billSum) && billSum > 0) changeOutline(billInput, billError);
+    else valid = changeOutline(billInput, billError, false);
+    
+    if (!isNaN(numPeople) && numPeople > 0) changeOutline(peopleInput, pplError);
+    else valid = changeOutline(peopleInput, pplError, false);
     return valid;
 }

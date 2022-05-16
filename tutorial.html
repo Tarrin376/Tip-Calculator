@@ -12,13 +12,13 @@
     <h1 id="second">tter</h1>
     <div class="bill">
         <div class="inputDetails">
-            <p>Bill</p>
+            <span class="subTitle">Bill</span><span id="billError">Invalid input</span>
             <div class="billInput">
                 <p>$</p>
                 <input type="text" id="totalBill" placeholder="0" value="">
             </div>
             <div class="selectTip">
-                <p>Select Tip %</p>
+                <p class="subTitle">Select Tip %</p>
                 <div class="tipAmount">
                     <button value="0.05" class="tipButton">5%</button>
                     <button value="0.10" class="tipButton">10%</button>
@@ -29,9 +29,9 @@
                 </div>
             </div>
             <div class="numPeople">
-                <p>Number of People</p>
+                <span class="subTitle">Number of People</span><span id="pplError">Invalid input</span>
                 <div class="peopleInput">
-                    <img src="./images/icon-person.svg" alt="Person icon" id="personIcon">
+                    <img src="" alt="" id="personIcon">
                     <input type="text" id="people" placeholder="0" value="">
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     <p class="perPerson">/ person</p>
                 </div>
                 <div class="total" id="tipTotal">
-                    <span>$</span><span>0.00</span>
+                    <span>$</span><span>0</span>
                 </div>
             </div>
             <div class="totalOutput">
@@ -52,7 +52,7 @@
                     <p class="perPerson">/ person</p>
                 </div>
                 <div class="total" id="totalAmount">
-                    <span>$</span><span>0.00</span>
+                    <span>$</span><span>0</span>
                 </div>
             </div>
             <button id="reset">RESET</button>

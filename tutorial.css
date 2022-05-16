@@ -36,6 +36,7 @@ body {
     padding: 30px;
     display: flex;
     gap: 40px;
+    margin-bottom: 130px;
 }
 
 .inputDetails, .outputDetails {
@@ -47,8 +48,20 @@ body {
     padding: 10px 0px 10px 0px;
 }
 
-.inputDetails p {
+.subTitle {
     color: hsl(186, 14%, 43%);
+}
+
+#billError {
+    color: rgb(255, 136, 0);
+    padding-left: 180px;
+    visibility: hidden;
+}
+
+#pplError {
+    color: rgb(255, 136, 0);
+    padding-left: 62px;
+    visibility: hidden;
 }
 
 .outputDetails {
@@ -188,15 +201,24 @@ body {
     height: 40px;
     border-radius: 5px;
     border: none;
-    color: hsl(183, 100%, 15%);
     font-size: 17px;
     font-weight: 700;
-    background-color: hsl(172, 67%, 45%);
-    cursor: pointer;
     transition: 0.1s ease-in-out all;
 }
 
-#reset:hover {
+.enabled {
+    background-color: hsl(172, 67%, 45%);
+    cursor: pointer;
+    color: hsl(183, 70%, 15%);
+}
+
+.disabled {
+    background-color: hsl(183, 95%, 8%);
+    color: rgb(102, 102, 102);
+    cursor: auto;
+}
+
+.enabled:hover {
     background-color: hsl(185, 40%, 78%);
 }
 
