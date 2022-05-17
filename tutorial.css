@@ -150,6 +150,7 @@ body {
     display: inline-block;
     padding-top: 12px;
     padding-left: 10px;
+    width: 25px;
 }
 
 .outputDetails {
