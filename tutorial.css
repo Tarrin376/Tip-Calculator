@@ -52,18 +52,6 @@ body {
     color: hsl(186, 14%, 43%);
 }
 
-#billError {
-    color: rgb(255, 136, 0);
-    padding-left: 180px;
-    visibility: hidden;
-}
-
-#pplError {
-    color: rgb(255, 136, 0);
-    padding-left: 62px;
-    visibility: hidden;
-}
-
 .outputDetails {
     background-color: hsl(183, 100%, 15%);
     border-radius: 15px;
@@ -213,8 +201,8 @@ body {
 }
 
 .disabled {
-    background-color: hsl(183, 95%, 8%);
-    color: rgb(102, 102, 102);
+    background-color: hsla(183, 66%, 35%, 0.479);
+    color: hsla(183, 71%, 15%, 0.452);
     cursor: auto;
 }
 
@@ -238,7 +226,7 @@ body {
     }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 660px) {
     .bill {
         width: 90%;
     }
@@ -247,12 +235,15 @@ body {
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 430px) {
     .total {
         margin: auto;
     }
     .tipOutput, .totalOutput {
         flex-direction: column;
         gap: 10px;
+    }
+    .total span {
+        font-size: 28px;
     }
 }

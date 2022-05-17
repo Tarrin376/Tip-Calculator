@@ -14,25 +14,22 @@ customTip.addEventListener('keyup', () => {
     resetTip();
     prevBtn = null;
     
-    if (isNaN(customTip.value)) {
+    if (isNaN(customTip.value) || customTip.value >= 100) {
         changeOutline(customTip, null, false);
         return;
     }
 
-    changeOutline(customTip, null);
+    if (customTip.value !== '') changeOutline(customTip, null);
+    else customTip.style.outline = 'none';
     updateTotal();
 });
 
 resetBtn.addEventListener('click', () => {
     if (resetBtn.className !== 'disabled') {
-        customTip.style.outline = '';
-        billInput.style.outline = '';
-        peopleInput.style.outline = '';
-        totalText.textContent = '0';
-        tipText.textContent = '0';
-        customTip.value = '';
-        totalBill.value = '';
-        people.value = '';
+        customTip.style.outline = billInput.style.outline = peopleInput.style.outline = '';
+        totalText.textContent = tipText.textContent = '0.00';
+        customTip.value = totalBill.value = people.value = '';
+        modifyResetButton(true);
         resetTip();
     }
 });
@@ -43,18 +40,23 @@ const modifyResetButton = (isDisabled) => {
 };
 
 modifyResetButton(true);
+const resetTip = () => {
+    if (prevBtn === null) return;
+    prevBtn.style.background = '';
+    prevBtn.style.color = '';
+};
+
 tipButtons.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         const btnTarget = e.currentTarget;
         btnTarget.style.background = 'hsl(172, 67%, 45%)';
         btnTarget.style.color = 'hsl(183, 100%, 15%)';
-        customTip.value = '';
-        customTip.style.outline = '';
+        customTip.value = customTip.style.outline = '';
         resetTip();
 
         if (btnTarget === prevBtn) {
             totalText.textContent = totalText.textContent - tipText.textContent;
-            tipText.textContent = '0';
+            tipText.textContent = '0.00';
             prevBtn = null;
         }
         else {
@@ -66,24 +68,10 @@ tipButtons.forEach((btn) => {
 });
 
 const changeOutline = (e, text, valid = true) => {
-    if (valid === false) {
-        e.style.outline = '2px solid orange';
-        if (text != null) text.style.visibility = 'visible';
-    }
-    else {
-        e.style.outline = '2px solid hsl(172, 67%, 45%)';
-        if (text != null) text.style.visibility = 'hidden';
-    }
-
+    if (valid === false) e.style.outline = '2px solid orange';
+    else e.style.outline = '2px solid hsl(172, 67%, 45%)';
     return valid;
 };
-
-function resetTip() {
-    if (prevBtn !== null) {
-        prevBtn.style.background = '';
-        prevBtn.style.color = '';
-    }
-}
 
 function updateTotal() {
     const numPeople = parseInt(people.value);
@@ -95,13 +83,13 @@ function updateTotal() {
         let sum = billSum / numPeople;
         let custom = customTip.value;
         let tip = (prevBtn !== null) ? sum * prevBtn.value : custom === '' ? 0 : custom / numPeople;
-        totalText.textContent = sum + tip;
-        tipText.textContent = tip;
+        
+        totalText.textContent = (sum + tip).toFixed(2);
+        tipText.textContent = (tip).toFixed(2);
         modifyResetButton(false);
     }
     else {
-        totalText.textContent = '0';
-        tipText.textContent = '0';
+        totalText.textContent = tipText.textContent = '0.00';
         modifyResetButton(true);
     }
     
@@ -114,10 +102,10 @@ function checkInputs(numPeople, billSum) {
     const pplError = document.getElementById('pplError');
     let valid = true;
 
-    if (!isNaN(billSum) && billSum > 0) changeOutline(billInput, billError);
+    if (!isNaN(billSum) && billSum > 0 && billSum < 1000) changeOutline(billInput, billError);
     else valid = changeOutline(billInput, billError, false);
     
-    if (!isNaN(numPeople) && numPeople > 0) changeOutline(peopleInput, pplError);
+    if (!isNaN(numPeople) && numPeople > 0 && numPeople < 100) changeOutline(peopleInput, pplError);
     else valid = changeOutline(peopleInput, pplError, false);
     return valid;
 }
